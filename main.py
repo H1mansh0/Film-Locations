@@ -1,4 +1,7 @@
 def file_reader(filename: str) -> list:
+    """"
+    Reads file
+    """
     res = []
     with open(filename, 'r') as file:
         data = file.readlines()[14:-1]
