@@ -21,8 +21,8 @@ lg = args.longitude
 year = args.year
 
 def file_reader(filename: str) -> list:
-    """"
-    Reads file
+    """
+    Read file
     """
     res = []
     with open(filename, 'r') as file:
@@ -30,8 +30,8 @@ def file_reader(filename: str) -> list:
         for line in data:
             res += [(line[:-2].split(' (')[0] ,line[:-2].split(' (')[1][:4],
                                 [ele for ele in line.replace('\n', '').split('\t')[1:] if ele][0])]
-     return res
-     
+    return res
+
 def map_maker(coords: list, rad: int):
     """
     Creates map with 10 markers 
@@ -69,7 +69,7 @@ def places(country: str, year: str) -> list:
         except AttributeError:
             continue
     return res
-    
+
 def distance_calc(ln: int, lg: int, places: list[tuple]) -> list[tuple]:
     """
     Calculates the nearest recording places
@@ -79,4 +79,16 @@ def distance_calc(ln: int, lg: int, places: list[tuple]) -> list[tuple]:
     for ele in places:
         res += [(ele[0], ele[-1], haversine.haversine((ln, lg), (ele[-1][0], ele[-1][0])))]
     return sorted(res, key = lambda x: x[-1])[:10]
+
+def main():
+    """
+    The main function
+    """
+    list_of_dist = distance_calc(ln, lg, places(country_getter(ln, lg), year))
+    print(list_of_dist)
+    rad = round(list_of_dist[-1][-1])
+    return map_maker(list_of_dist, rad)
+
+if __name__ == '__main__':
+    main()
 
