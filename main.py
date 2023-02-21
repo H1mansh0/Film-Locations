@@ -88,7 +88,6 @@ def main():
     The main function
     """
     list_of_dist = distance_calc(ln, lg, places(country_getter(ln, lg), year, filename))
-    print(list_of_dist)
     rad = round(list_of_dist[-1][-1])
     return map_maker(list_of_dist, rad)
 
