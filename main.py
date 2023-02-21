@@ -30,6 +30,22 @@ def file_reader(filename: str) -> list:
         for line in data:
             res += [(line[:-2].split(' (')[0] ,line[:-2].split(' (')[1][:4],
                                 [ele for ele in line.replace('\n', '').split('\t')[1:] if ele][0])]
+     return res
+     
+def map_maker(coords: list, rad: int):
+    """
+    Creates map with 10 markers 
+    which shows the nearest films and
+    grey circle which shows the area of
+    the nearest film
+    """
+    map = folium.Map()
+    fg = folium.FeatureGroup(name="Films")
+    for ele in coords:
+        fg.add_child(folium.Marker(location=[ele[1][0], ele[1][-1]], popup=ele[0], icon=folium.Icon(), color = 'black'))
+    fg.add_child(folium.Circle(location = [ln, lg], radius=rad*1000, color='grey', fill=True, fill_color='grey', popup='Area of films'))
+    map.add_child(fg)
+    return map
 
 def country_getter(lat: float, long: float) -> str:
     """
@@ -53,3 +69,4 @@ def places(country: str, year: str) -> list:
         except AttributeError:
             continue
     return res
+
